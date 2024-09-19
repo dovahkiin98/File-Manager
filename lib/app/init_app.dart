@@ -14,6 +14,9 @@ Future<void> initApp() async {
   ));
 
   await initHydratedStorage();
+
+  timeago.setLocaleMessages('ar', timeago.ArMessages());
+  timeago.setLocaleMessages('ar_short', timeago.ArShortMessages());
 }
 
 Future<void> initHydratedStorage() async {
