@@ -24,8 +24,9 @@ class MyApp extends StatelessWidget {
     );
 
     return MaterialApp.router(
+      color: lightTheme.colorScheme.primary,
       routerConfig: router,
-      title: 'File Manager',
+      title: 'Inferno File Manager',
       debugShowCheckedModeBanner: false,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
