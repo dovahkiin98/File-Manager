@@ -26,6 +26,10 @@ class AppCubit extends HydratedCubit<AppState> {
 
   Locale get locale => state.locale ?? PlatformDispatcher.instance.locale;
 
+  void setShowHiddenFiles(bool showHiddenFiles) {
+    emit(state.copyWith(showHiddenFiles: showHiddenFiles));
+  }
+
   void setViewMode(ViewMode viewMode) {
     emit(state.copyWith(viewMode: viewMode));
   }
@@ -66,4 +70,7 @@ class AppCubit extends HydratedCubit<AppState> {
 
   @override
   JsonMap? toJson(AppState state) => state.toJson();
+
+  /// An empty locale to is used to represent `System Default` Locale
+  static const systemLocale = Locale('_');
 }

@@ -8,11 +8,13 @@ final class AppState {
     this.locale,
     required this.themeMode,
     required this.viewMode,
+    this.showHiddenFiles = false,
   });
 
   final Locale? locale;
   final ThemeMode themeMode;
   final ViewMode viewMode;
+  final bool showHiddenFiles;
 
   factory AppState.fromJson(JsonMap json) => AppState(
         locale: json['locale'] != null
@@ -20,12 +22,14 @@ final class AppState {
             : null,
         themeMode: ThemeMode.values[json['themeMode']],
         viewMode: ViewMode.values[json['viewMode']],
+        showHiddenFiles: json['showHiddenFiles'],
       );
 
   JsonMap toJson() => {
         'locale': locale?.toLanguageTag(),
         'themeMode': themeMode.index,
         'viewMode': viewMode.index,
+        'showHiddenFiles': showHiddenFiles,
       };
 
   AppState copyWith({
@@ -33,11 +37,13 @@ final class AppState {
     Locale? Function()? locale,
     ThemeMode? themeMode,
     ViewMode? viewMode,
+    bool? showHiddenFiles,
   }) =>
       AppState(
         locale: locale != null ? locale() : this.locale,
         themeMode: themeMode ?? this.themeMode,
         viewMode: viewMode ?? this.viewMode,
+        showHiddenFiles: showHiddenFiles ?? this.showHiddenFiles,
       );
 }
 
