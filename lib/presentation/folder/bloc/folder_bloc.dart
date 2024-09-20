@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:collection/collection.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:file/file.dart';
 import 'package:file_manager/data/model/filter_type.dart';
 import 'package:file_manager/data/model/sort_type.dart';
@@ -57,17 +59,25 @@ class FolderBloc extends Bloc<FolderEvent, FolderState> {
   ) async {
     emit(FolderStateInitial());
 
-    var permissions = await [
-      Permission.manageExternalStorage,
-      Permission.storage,
-    ].request();
+    PermissionStatus permission;
 
-    if (permissions.containsValue(PermissionStatus.granted)) {
+    if(Platform.isAndroid) {
+      final androidInfo = await DeviceInfoPlugin().androidInfo;
+
+      if (androidInfo.version.sdkInt >= 30) {
+        permission = await Permission.manageExternalStorage.request();
+      } else {
+        permission = await Permission.storage.request();
+      }
+    } else {
+      permission = await Permission.storage.request();
+    }
+
+    if (permission.isGranted) {
       add(FolderGetFilesEvent());
     } else {
       emit(FolderStatePermissionError(
-        isPermanent:
-            permissions.containsValue(PermissionStatus.permanentlyDenied),
+        isPermanent: permission.isPermanentlyDenied,
       ));
     }
   }

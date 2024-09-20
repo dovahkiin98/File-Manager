@@ -28,6 +28,7 @@ dependencies:
   url_launcher: ^6.3.0
 
   # Flutter Community
+  device_info_plus: ^10.1.2
 
   # 3rd Party
   flutter_bloc: ^8.1.6
