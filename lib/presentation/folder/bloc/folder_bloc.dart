@@ -57,22 +57,18 @@ class FolderBloc extends Bloc<FolderEvent, FolderState> {
   ) async {
     emit(FolderStateInitial());
 
-    var permission = await Permission.manageExternalStorage.status;
+    var permissions = await [
+      Permission.manageExternalStorage,
+      Permission.storage,
+    ].request();
 
-    if (permission.isGranted) {
+    if (permissions.containsValue(PermissionStatus.granted)) {
       add(FolderGetFilesEvent());
-    } else if (permission.isPermanentlyDenied) {
-      emit(FolderStatePermissionError(isPermanent: true));
     } else {
-      permission = await Permission.manageExternalStorage.request();
-
-      if (permission.isGranted) {
-        add(FolderGetFilesEvent());
-      } else {
-        emit(FolderStatePermissionError(
-          isPermanent: permission.isPermanentlyDenied,
-        ));
-      }
+      emit(FolderStatePermissionError(
+        isPermanent:
+            permissions.containsValue(PermissionStatus.permanentlyDenied),
+      ));
     }
   }
 
