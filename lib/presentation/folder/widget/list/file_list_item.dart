@@ -1,4 +1,5 @@
 import 'package:file/file.dart';
+import 'package:file_manager/core/utils/extension/file_system_entity_ex.dart';
 import 'package:file_manager/core/utils/file_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -68,7 +69,22 @@ class FileListItem extends StatelessWidget {
   Widget leading() {
     final fileExtension = extension(file.path);
 
-    if (imageExtensions.contains(fileExtension)) {
+    if (fileExtension == '.svg') {
+      return Container(
+        width: 48,
+        height: 48,
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+        ),
+        clipBehavior: Clip.hardEdge,
+        child: SvgPicture.file(
+          file,
+          fit: BoxFit.contain,
+        ),
+      );
+    }
+
+    if (file.isImage()) {
       return Container(
         width: 48,
         height: 48,
@@ -83,22 +99,7 @@ class FileListItem extends StatelessWidget {
       );
     }
 
-    if (fileExtension == '.svg') {
-      return Container(
-        width: 48,
-        height: 48,
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-        ),
-        clipBehavior: Clip.hardEdge,
-        child: SvgPicture.file(
-          file,
-          fit: BoxFit.cover,
-        ),
-      );
-    }
-
-    if (videoExtensions.contains(fileExtension)) {
+    if (file.isVideo()) {
       return Container(
         width: 48,
         height: 48,

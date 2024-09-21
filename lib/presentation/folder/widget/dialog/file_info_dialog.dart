@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:file/file.dart';
 import 'package:file_manager/core/i10n.dart';
 import 'package:file_manager/core/utils/file_utils.dart';
 import 'package:flutter/material.dart';

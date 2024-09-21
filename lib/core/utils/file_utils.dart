@@ -1,6 +1,6 @@
-import 'dart:io';
-
+import 'package:file/file.dart';
 import 'package:file_manager/core/i10n.dart';
+import 'package:file_manager/core/utils/extension/file_system_entity_ex.dart';
 import 'package:file_manager/data/model/file_size.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
@@ -41,19 +41,19 @@ String fileType({
 }
 
 IconData fileIcon(
-  FileSystemEntity file,
+  File file,
 ) {
   final fileExtension = extension(file.path);
 
-  if (imageExtensions.contains(fileExtension)) {
+  if (file.isImage()) {
     return Icons.image_outlined;
   }
 
-  if (videoExtensions.contains(fileExtension)) {
+  if (file.isVideo()) {
     return Icons.video_file_outlined;
   }
 
-  if (audioExtensions.contains(fileExtension)) {
+  if (file.isAudio()) {
     return Icons.audio_file_outlined;
   }
 
@@ -79,23 +79,3 @@ String sizeText(
 
   return fileSize.toString();
 }
-
-final List<String> imageExtensions = [
-  '.png',
-  '.jpg',
-  '.jpeg',
-  '.ico',
-  '.webp',
-];
-
-final List<String> videoExtensions = [
-  '.mp4',
-  '.mov',
-  '.avi',
-];
-
-final List<String> audioExtensions = [
-  '.mp3',
-  '.m4a',
-  '.ogg',
-];

@@ -1,5 +1,5 @@
 import 'package:file/file.dart';
-import 'package:file_manager/core/utils/file_utils.dart';
+import 'package:file_manager/core/utils/extension/file_system_entity_ex.dart';
 import 'package:path/path.dart';
 
 sealed class FilterType {
@@ -43,7 +43,7 @@ class FilterTypeImages extends FilterType {
     Iterable<FileSystemEntity> files,
   ) =>
       files.where((e) {
-        return imageExtensions.contains(extension(e.path));
+        return e.isImage();
       });
 }
 
